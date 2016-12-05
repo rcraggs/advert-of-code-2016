@@ -24,7 +24,6 @@ def get_checksum(code):
     return letters_in_count_then_alpha_order[0:5]
 
 
-
 with open("./data/day4.txt") as f:
     content = f.readlines()
 
@@ -34,10 +33,7 @@ with open("./data/day4.txt") as f:
         m = re.search('(.*)-([0-9]+)\[([a-z]+)\]', line)
 
         if m.group(3) == get_checksum(m.group(1)):
-            # print("atching: %s : %s : %s" % (m.group(3), get_checksum(m.group(1)), m.group(1)))
+            print("%s,%s" % (m.group(1), m.group(2)))
             sum_of_sectors += int(m.group(2))
-        else:
-            print("NOMATCH: %s : %s : %s" % (m.group(3), get_checksum(m.group(1)), m.group(1)))
-
 
     print(sum_of_sectors)
