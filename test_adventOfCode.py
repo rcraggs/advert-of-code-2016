@@ -5,6 +5,12 @@ __author__ = 'Richard Craggs'
 
 
 class TestAdventOfCode(TestCase):
+
+    a = None
+
+    def setUp(self):
+        self.a = AdventOfCode()
+
     def test_getNextDigit(self):
         a = AdventOfCode()
         self.assertEqual(a.get_next_digit("abc"), "1")
@@ -20,12 +26,41 @@ class TestAdventOfCode(TestCase):
         self.assertEqual(1, 1)
 
     def test_get_password_2(self):
-
         a = AdventOfCode()
         self.assertEqual(a.get_password_2("abc", 8), "05ace8e3")
 
     def test_get_result_2(self):
-
         a = AdventOfCode()
         print(a.get_password_2("ojvtpuvg", 8))
         self.assertEqual(1, 1)
+
+    def test_get_day_6_test_word(self):
+
+        f = open("./data/day6-test.txt")
+        message = f.readlines()
+
+        self.assertEqual(self.a.get_day_6_word(message), "easter")
+
+
+    def test_get_day_6_word(self):
+
+        f = open("./data/day6.txt")
+        message = f.readlines()
+        print(self.a.get_day_6_word(message))
+        self.assertEqual("easter", "easter")
+
+
+    def test_get_day_6_part_2_test_word(self):
+
+        f = open("./data/day6-test.txt")
+        message = f.readlines()
+
+        self.assertEqual(self.a.get_day_6_part_2_word(message), "advent")
+
+
+    def test_get_day_6_part_2_word(self):
+
+        f = open("./data/day6.txt")
+        message = f.readlines()
+        print(self.a.get_day_6_part_2_word(message))
+        self.assertEqual("easter", "easter")

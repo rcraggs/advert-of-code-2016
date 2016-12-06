@@ -1,10 +1,14 @@
 import hashlib
+from collections import Counter
 
 __author__ = 'Richard Craggs'
+
 
 class AdventOfCode:
 
     current_index = 0
+
+    # --- Day 5
 
     def find_next_hash(self, door_id):
 
@@ -54,3 +58,22 @@ class AdventOfCode:
 
         print(password)
         return password_text
+
+    # --- Day 6
+
+    def day_6_aux(self, message, position_in_counter):
+        word_length = len(message[0])
+        num_rows = len(message)
+        word = ""
+        for i in range(0, word_length - 1):
+            c = Counter([line[i] for line in message])
+            word += c.most_common(num_rows)[position_in_counter][0]
+        return word
+
+    def get_day_6_word(self, message):
+        return self.day_6_aux(message, 0)
+
+
+    def get_day_6_part_2_word(self, message):
+        return self.day_6_aux(message, -1)
+
