@@ -64,3 +64,18 @@ class TestAdventOfCode(TestCase):
         message = f.readlines()
         print(self.a.get_day_6_part_2_word(message))
         self.assertEqual("easter", "easter")
+
+
+    def test_day_7_part_1(self):
+
+        self.assertEquals(self.a.is_ip_abba(r"abba[mnop]qrst"), True)
+        self.assertEquals(self.a.is_ip_abba(r"ioxxoj[asdfgh]zxcvbn"), True)
+        self.assertEquals(self.a.is_ip_abba(r"abcd[bddb]xyyx"), False)
+        self.assertEquals(self.a.is_ip_abba(r"aaaa[qwer]tyui"), False)
+
+    def test_run_day_7_part_1(self):
+
+        f = open("./data/day7.txt")
+        ips = f.readlines()
+        print(sum(self.a.is_ip_abba(ip) for ip in ips))
+

@@ -1,5 +1,6 @@
 import hashlib
 from collections import Counter
+import re
 
 __author__ = 'Richard Craggs'
 
@@ -76,4 +77,24 @@ class AdventOfCode:
 
     def get_day_6_part_2_word(self, message):
         return self.day_6_aux(message, -1)
+
+    def is_ip_abba(self, addr):
+
+        addr = addr.rstrip()
+
+        # if the IP contains abba in brackets then it's not
+        match = re.search(r'\[[^\]]*(\w)(\w)(?!\1)(\2)(\1)[^\]]*\]', addr)
+        if match:
+            # print("NOINBR} " + addr + " : " + match.group(0))
+            return False
+
+        pattern = re.compile(r'(\w)(\w)(?!\1)\2\1')
+        match = pattern.search(addr)
+
+        # if match:
+        #     # print("YESABBA} " + addr + " : " + match.group(0))
+        # else:
+        #     # print("NOWT} " + addr )
+
+        return bool(match)
 
