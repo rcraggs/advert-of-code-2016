@@ -73,9 +73,35 @@ class TestAdventOfCode(TestCase):
         self.assertEquals(self.a.is_ip_abba(r"abcd[bddb]xyyx"), False)
         self.assertEquals(self.a.is_ip_abba(r"aaaa[qwer]tyui"), False)
 
+    def test_day_7_part_2(self):
+
+        self.assertEquals(self.a.is_ip_aba(r"aba[bab]xyz"), True)
+        self.assertEquals(self.a.is_ip_aba(r"xyx[xyx]xyx"), False)
+        self.assertEquals(self.a.is_ip_aba(r"aaa[kek]eke"), True)
+        self.assertEquals(self.a.is_ip_aba(r"zazbz[bzb]cdb"), True)
+
+    def test_day_7_2_inside(self):
+        self.assertEquals(self.a.is_ip_aba(r"oktlpryceitvhqqjqxq[ufupbpapoxovifhqp]xgrwutvfooowfaxs[yxoxzdoqyhxsiwcxrgm]swmalhlzrknfxgnamr"), False)
+
+
     def test_run_day_7_part_1(self):
 
         f = open("./data/day7.txt")
         ips = f.readlines()
-        print(sum(self.a.is_ip_abba(ip) for ip in ips))
+        print(sum(self.a.is_ip_aba(ip) for ip in ips))
+
+
+    def test_8_1(self):
+
+        instructions = ("rect 3x2", "rotate column x=1 by 1", "rotate row y=0 by 4", "rotate column x=1 by 1")
+
+        self.a.process_screen_instructions(instructions, 7, 3)
+        self.assertEqual(self.a.get_lit_pixels(), 6)
+
+    def test_run_8_1(self):
+
+        f = open("./data/day8.txt")
+        instructions = f.readlines()
+        self.a.process_screen_instructions(instructions, 50, 6)
+        print(self.a.get_lit_pixels())
 
