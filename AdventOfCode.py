@@ -93,30 +93,41 @@ class AdventOfCode:
 
         return bool(match)
 
+    def get_aba_patterns(self, text):
+
+        abas = set()
+
+        for i in range(0, len(text)-2):
+
+            triple = text[i:i+3]
+            if triple[0] == triple[2] and triple[0] != triple[1]:
+                abas.add(triple)
+
+        return abas
+
+
     def is_ip_aba(self, addr):
 
         addr = addr.rstrip()
 
-        hyper_a = re.sub('\[[^\]]+\]', "", addr) # without the bracket bits
-        sub_a = "".join(re.findall("\[[^\]]+]", addr)) # just the bracket bits
+        sections = re.split("\[|\]", addr)
+        supernets = sections[::2]
+        hypernets = sections[1::2]
 
-        print("hyper " + hyper_a)
-        print("sub " + sub_a)
+        super_abas = set()
+        hyper_abas = set()
 
-        # get a list of the abas in the hyper_as, then switch them
-        abas = [x[0] for x in re.findall("((\w)\w\\2)", hyper_a)]
+        for supernet in supernets:
+            super_abas |= self.get_aba_patterns(supernet)
 
-        print("abas %s" % abas)
+        for hypernet in hypernets:
+            hyper_abas |= self.get_aba_patterns(hypernet)
 
-        babs = [list(o)[1]+list(o)[0]+list(o)[1] for o in abas]
+        # inverse the supernets
+        super_abas_reversed = set(([s[1]+s[0]+s[1] for s in super_abas]))
 
-        print("babs %s" % babs)
-
-        if any(x in sub_a for x in babs):
-            return True
-        else:
-            return False
-
+        # if there is any intersection between the two, then its a something
+        return len(super_abas_reversed.intersection(hyper_abas)) > 0
 
     screen = None
 
@@ -224,9 +235,6 @@ class AdventOfCode:
 
             # remove the characters that we're going to repeat
             message = str((new_repeated_bit * repetitions) + tail_of_the_message)
-
-            # add how many characters would result from repeating them
-            # decompressed_length += num_chars_to_repeat * repetitions
 
             # Split again
             match = splitter.match(message)

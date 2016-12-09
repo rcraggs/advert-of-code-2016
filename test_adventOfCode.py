@@ -75,6 +75,7 @@ class TestAdventOfCode(TestCase):
 
     def test_day_7_part_2(self):
 
+        self.assertEquals(self.a.is_ip_aba(r"wweabasfsf[poiubabsfdf]poixyzppoi"), True)
         self.assertEquals(self.a.is_ip_aba(r"aba[bab]xyz"), True)
         self.assertEquals(self.a.is_ip_aba(r"xyx[xyx]xyx"), False)
         self.assertEquals(self.a.is_ip_aba(r"aaa[kek]eke"), True)
