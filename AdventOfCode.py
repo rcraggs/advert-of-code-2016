@@ -97,14 +97,26 @@ class AdventOfCode:
 
         addr = addr.rstrip()
 
+        hyper_a = re.sub('\[[^\]]+\]', "", addr) # without the bracket bits
+        sub_a = "".join(re.findall("\[[^\]]+]", addr)) # just the bracket bits
 
-        pattern = re.compile(r'(\[[^\[\]]*(\w)(?!\2)(\w)\2[^\[\]]*\](?:(?:\[[^\[]+\])*|[^\[]*)\3\2\3)|((\w)(?!\5)(\w)\5.*\[[^\[\]]*\6\5\6)[^\[\]]*\]')
-        match = pattern.search(addr)
+        print("hyper " + hyper_a)
+        print("sub " + sub_a)
 
-        if match:
-            print(addr + " ----- " + match.group(0))
+        # get a list of the abas in the hyper_as, then switch them
+        abas = [x[0] for x in re.findall("((\w)\w\\2)", hyper_a)]
 
-        return bool(match)
+        print("abas %s" % abas)
+
+        babs = [list(o)[1]+list(o)[0]+list(o)[1] for o in abas]
+
+        print("babs %s" % babs)
+
+        if any(x in sub_a for x in babs):
+            return True
+        else:
+            return False
+
 
     screen = None
 
@@ -159,3 +171,71 @@ class AdventOfCode:
 
 
 
+    def get_decompressed_length(self, message):
+
+        decompressed_length = 0
+
+        splitter = re.compile("^([^\(]*)\((\d+)x(\d+)\)(.*)")
+        match = splitter.match(message)
+
+        while match:
+
+            # print("remaining string " + match.group(4))
+
+            # Add everything up to the next marker to the length
+            decompressed_length += len(match.group(1))
+
+            num_chars_to_repeat = int(match.group(2))
+            repetitions = int(match.group(3))
+
+            # remove the characters that we're going to repeat
+            message = match.group(4)[num_chars_to_repeat:]
+
+            # add how many characters would result from repeating them
+            decompressed_length += num_chars_to_repeat * repetitions
+
+            # Split again
+            match = splitter.match(message)
+
+        # Add the rest of the message to the length
+        decompressed_length += len(message)
+
+        return decompressed_length
+
+    def get_decompressed_length_2(self, message):
+
+        decompressed_length = 0
+
+        splitter = re.compile("^([^\(]*)\((\d+)x(\d+)\)(.*)")
+        match = splitter.match(message)
+
+        while match:
+
+            # print("remaining string " + match.group(4))
+
+            # Add everything up to the next marker to the length
+            decompressed_length += len(match.group(1))
+
+            num_chars_to_repeat = int(match.group(2))
+            repetitions = int(match.group(3))
+
+            new_repeated_bit = match.group(4)[:num_chars_to_repeat]
+            tail_of_the_message = match.group(4)[num_chars_to_repeat:]
+
+            # remove the characters that we're going to repeat
+            message = str((new_repeated_bit * repetitions) + tail_of_the_message)
+
+            # add how many characters would result from repeating them
+            # decompressed_length += num_chars_to_repeat * repetitions
+
+            # Split again
+            match = splitter.match(message)
+
+            if decompressed_length % 1000 == 0:
+                print("current so far " + str(decompressed_length))
+                print("remaining message length %s " % len(message))
+
+        # Add the rest of the message to the length
+        decompressed_length += len(message)
+
+        return decompressed_length

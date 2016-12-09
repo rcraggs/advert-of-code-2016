@@ -78,7 +78,7 @@ class TestAdventOfCode(TestCase):
         self.assertEquals(self.a.is_ip_aba(r"aba[bab]xyz"), True)
         self.assertEquals(self.a.is_ip_aba(r"xyx[xyx]xyx"), False)
         self.assertEquals(self.a.is_ip_aba(r"aaa[kek]eke"), True)
-        self.assertEquals(self.a.is_ip_aba(r"zazbz[bzb]cdb"), True)
+        self.assertEquals(self.a.is_ip_aba(r"azbz[bzb]cdb"), True)
 
     def test_day_7_2_inside(self):
         self.assertEquals(self.a.is_ip_aba(r"oktlpryceitvhqqjqxq[ufupbpapoxovifhqp]xgrwutvfooowfaxs[yxoxzdoqyhxsiwcxrgm]swmalhlzrknfxgnamr"), False)
@@ -105,3 +105,32 @@ class TestAdventOfCode(TestCase):
         self.a.process_screen_instructions(instructions, 50, 6)
         print(self.a.get_lit_pixels())
 
+
+    def test_9_1(self):
+
+        self.assertEqual(self.a.get_decompressed_length("ADVENT"), 6)
+        self.assertEqual(self.a.get_decompressed_length("A(1x5)BC"), 7)
+        self.assertEqual(self.a.get_decompressed_length("(3x3)XYZ"), 9)
+        self.assertEqual(self.a.get_decompressed_length("A(2x2)BCD(2x2)EFG"), 11)
+        self.assertEqual(self.a.get_decompressed_length("(6x1)(1x3)A"), 6)
+        self.assertEqual(self.a.get_decompressed_length("X(8x2)(3x3)ABCY"), 18)
+
+    def test_run_9_1(self):
+
+        f = open("./data/day9.txt")
+        line = f.readline()
+        print(self.a.get_decompressed_length(line))
+
+
+    def test_9_2(self):
+
+        self.assertEqual(self.a.get_decompressed_length_2("ADVENT"), 6)
+        self.assertEqual(self.a.get_decompressed_length_2("X(8x2)(3x3)ABCY"), 20)
+        self.assertEqual(self.a.get_decompressed_length_2("(27x12)(20x12)(13x14)(7x10)(1x12)A"), 241920)
+        self.assertEqual(self.a.get_decompressed_length_2("(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN"), 445)
+
+    def test_run_9_2(self):
+
+        f = open("./data/day9.txt")
+        line = f.readline()
+        print(self.a.get_decompressed_length_2(line))
